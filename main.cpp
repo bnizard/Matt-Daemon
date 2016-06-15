@@ -14,9 +14,9 @@
 
 int main ()
 {
-	Daemon d;
+	Daemon *d = new Daemon();
 
-	d.create_server(4242);
+	d->create_server(4242);
 
-	return (d.main_test());
+	return (d->main_test());
 }

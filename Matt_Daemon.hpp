@@ -1,9 +1,10 @@
 #ifndef MATT_DAEMON_HPP
 # define MATT_DAEMON_HPP
 
-#include <unistd.h>
-#include <iostream>
-#include <fstream>
+# include <unistd.h>
+# include <stdlib.h>
+# include <iostream>
+# include <fstream>
 
 # include <stdio.h>
 # include <sys/socket.h>
@@ -14,9 +15,11 @@
 # include <sys/mman.h>
 # include <sys/types.h>
 
+
 class Tintin_reporter;
 class Daemon;
 
+# include "Logger.hpp"
 # include "Daemon.hpp"
 # include "Tintin_reporter.hpp"
 

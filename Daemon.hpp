@@ -12,8 +12,8 @@
 
 #include "Matt_Daemon.hpp"
 
-#ifndef MATT_DAEMON_HPP
-#define MATT_DAEMON_HPP
+#ifndef DAEMON_HPP
+#define DAEMON_HPP
 
 /*
 ** Classe du serveur daemon : initialisation, listen 4242, ecrire dans le logs.

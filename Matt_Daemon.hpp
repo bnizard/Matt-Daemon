@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <iostream>
 # include <fstream>
+# include <ctime>
 
 # include <stdio.h>
 # include <sys/socket.h>
@@ -18,9 +19,10 @@
 
 class Tintin_reporter;
 class Daemon;
+class Logger;
 
+# include "Tintin_reporter.hpp"
 # include "Logger.hpp"
 # include "Daemon.hpp"
-# include "Tintin_reporter.hpp"
 
 #endif

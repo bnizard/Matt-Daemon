@@ -11,16 +11,22 @@
 /* ************************************************************************** */
 
 
-#include "Matt_Daemon.hpp"
 
 #ifndef LOGGER_HPP
-#define LOGGER_HPP
+# define LOGGER_HPP
+
+# include "Matt_Daemon.hpp"
 
 class Logger
 {
 	public:
+		std::ofstream		File;
+		Tintin_reporter		Tintin;
+
 		Logger( void );
 		~Logger( void );
+
+		void InitLogger( void );
 };
 
 #endif

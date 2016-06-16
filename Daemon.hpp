@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Matt_Daemon.hpp"
+
 
 #ifndef DAEMON_HPP
-#define DAEMON_HPP
+# define DAEMON_HPP
+
+# include "Matt_Daemon.hpp"
 
 /*
 ** Classe du serveur daemon : initialisation, listen 4242, ecrire dans le logs.
@@ -28,9 +30,6 @@ class Daemon
 		//Tintin_reporter		Journal;
 		int		create_server(int port);
 		int		main_test();
-
-
 };
-
 
 #endif

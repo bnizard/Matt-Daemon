@@ -14,10 +14,19 @@
 
 Logger::Logger( void )
 {
-
+	InitLogger();
 }
 
 Logger::~Logger( void )
 {
 
+}
+
+void Logger::InitLogger( void )
+{
+	// Create file
+	// File.open("/var/log/matt_daemon/matt_daemon.log");
+	//Tintin = new Tintin_reporter();
+	File.open("./testlogfile.log");
+	Tintin.SetLogFile(&File);
 }

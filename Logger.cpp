@@ -36,10 +36,10 @@ void Logger::AddLog(std::string Str)
 
 void Logger::Created()
 {
-	Tintin.AddLog("Matt_Daemon Created.\n");
+	Tintin.AddLog("Matt_Daemon Created.");
 }
 
 void Logger::Closed()
 {
-	Tintin.AddLog("Matt_Daemon Closed.\n");
+	Tintin.AddLog("Matt_Daemon Closed.");
 }

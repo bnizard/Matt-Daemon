@@ -73,7 +73,7 @@ void Tintin_reporter::CreateNewLogFile(std::string FilePath)
 void Tintin_reporter::AddLogToFile(std::string SelectedFilePath, std::string Text)
 {
 	std::ofstream	CurFileStream;
-	CurFileStream.open(SelectedFilePath);
+	CurFileStream.open(SelectedFilePath, std::fstream::app);
 	if (WithTimeStamp)
 	{
 		PrintTimeStamp(&CurFileStream);
@@ -88,7 +88,7 @@ void Tintin_reporter::AddLog(std::string Text)
 {
 	if (this->islogFileSet == true)
 	{
-		logFileHandler.open(logFilePath);
+		logFileHandler.open(logFilePath, std::fstream::app);
 		if (WithTimeStamp)
 		{
 			PrintTimeStamp(&logFileHandler);
@@ -104,6 +104,12 @@ void Tintin_reporter::AddLog(std::string Text)
 
 void Tintin_reporter::PrintTimeStamp(std::ofstream *fileHandler)
 {
+	char		formattedOutput[34];
+	struct tm	*timeInfo;
+
+	formattedOutput[33] = '\0';
 	time(&timev);
-	*fileHandler << "[timev to format DD / MM / YYYY - HH : MM : SS] ";
+	timeInfo = localtime(&timev);
+	strftime (formattedOutput, 34, "[%d/%m/%Y-%H:%M:%S] ", timeInfo);
+	*fileHandler << formattedOutput;
 }

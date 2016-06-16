@@ -23,10 +23,17 @@ class Logger
 		std::ofstream		File;
 		Tintin_reporter		Tintin;
 
-		Logger( void );
-		~Logger( void );
+		// Default Public methods
+				Logger( void );
+				~Logger( void );
+				// Copplien ....
 
-		void InitLogger( void );
+		void	InitLogger( void );
+
+		// My public methods.
+		void	AddLog(std::string Str);
+		void	Created();
+		void	Closed();
 };
 
 #endif

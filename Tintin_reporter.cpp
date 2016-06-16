@@ -13,7 +13,7 @@
 #include "Matt_Daemon.hpp"
 
 Tintin_reporter::Tintin_reporter() :	WithTimeStamp(true),logFile(NULL),
-											logFileSet(false)
+											islogFileSet(false)
 										
 {
 
@@ -21,7 +21,12 @@ Tintin_reporter::Tintin_reporter() :	WithTimeStamp(true),logFile(NULL),
 
 Tintin_reporter::~Tintin_reporter()
 {
-
+	// close file if file opened;
+	if (islogFileSet)
+	{
+		(*this->logFile).close();
+		this->islogFileSet = false;
+	}
 }
 
 /*
@@ -29,10 +34,10 @@ Tintin_reporter::~Tintin_reporter()
 */
 void Tintin_reporter::SetLogFile(std::ofstream *SelectedFile)
 {
-	if (this->logFileSet == false || logFile != NULL)
+	if (this->islogFileSet == false && logFile != NULL)
 	{
 		this->logFile = SelectedFile;
-		this->logFileSet = true;
+		this->islogFileSet = true;
 	}
 	else
 	{
@@ -43,45 +48,65 @@ void Tintin_reporter::SetLogFile(std::ofstream *SelectedFile)
 void Tintin_reporter::UnsetLogFile()
 {
 	this->logFile = NULL;
-	this->logFileSet = false;
+	if (this->logFile)
+	{
+		(*this->logFile).close();
+	}
+	this->islogFileSet = false;
 }
 
-void Tintin_reporter::CreateNewLogFile(std::string str)
-{
-	if (str[0])
-	{}
-}
 /*
-void Tintin_reporter::AddLogToFile(std::ofstream SelectedFile, std::string Text)
+** Set log file from new file;
+*/
+void Tintin_reporter::CreateNewLogFile(std::string FilePath)
+{
+	if (this->islogFileSet == false && logFile != NULL)
+	{
+		std::ofstream	NewFile;
+
+		NewFile.open(FilePath);
+		SetLogFile(&NewFile);
+	}
+	else
+	{
+		std::cout << "File already set for Tintin_reporter. Use UnsetLogFile() first.";
+	}
+}
+
+/*
+** Add log to specified file;
+*/
+void Tintin_reporter::AddLogToFile(std::ofstream *SelectedFile, std::string Text)
 {
 	if (WithTimeStamp)
 	{
-		PrintTimeStamp();
+		PrintTimeStamp(logFile);
 	}
 	*SelectedFile << Text << "\n";
 }
 
+/*
+** Add log to current set file;
+*/
 void Tintin_reporter::AddLog(std::string Text)
 {
-	if (this->logFileSet)
+	if (this->islogFileSet == true && this->logFile != NULL)
 	{
 		if (WithTimeStamp)
 		{
 			PrintTimeStamp(logFile);
 		}
-		SelectedFile << Text << "\n";
+		*logFile << Text << "\n";
 	}
 	else
 	{
-		std::cout << "No file set for Tintin_reporter";
+		std::cout << "No log file set for Tintin_reporter";
 	}
-}*/
+}
 
 void Tintin_reporter::PrintTimeStamp(std::ofstream *SelectedFile)
 {
 	//[ DD / MM / YYYY - HH : MM : SS ]
 	time(&timev);
-	if (SelectedFile)
-	{}
-	//SelectedFile << "timev to format\n";
+	*SelectedFile << "[timev to format DD / MM / YYYY - HH : MM : SS] ";
 }

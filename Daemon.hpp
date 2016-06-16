@@ -25,7 +25,7 @@ class Daemon
 		Daemon( void );
 		~Daemon( void );
 
-		//Tintin_reporter		Journal;
+		Logger	Log;
 		int		create_server(int port);
 		int		main_test();
 };

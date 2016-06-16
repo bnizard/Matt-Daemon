@@ -27,6 +27,20 @@ void Logger::InitLogger( void )
 	// Create file
 	// File.open("/var/log/matt_daemon/matt_daemon.log");
 	//Tintin = new Tintin_reporter();
-	File.open("./testlogfile.log");
-	Tintin.SetLogFile(&File);
+	this->Tintin.CreateNewLogFile("./test2.txt");
+}
+
+void Logger::AddLog(std::string Str)
+{
+	Tintin.AddLog(Str);
+}
+
+void Logger::Created()
+{
+	Tintin.AddLog("Matt_Daemon Created.\n");
+}
+
+void Logger::Closed()
+{
+	Tintin.AddLog("Matt_Daemon Closed.\n");
 }

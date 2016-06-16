@@ -54,10 +54,10 @@ int		Daemon::create_server(int port)
 int Daemon::main_test ()
 {
 
- 	pid_t				pid, sid;
+ 	pid_t				pid;
  	std::ofstream		outputFile;
  	std::ofstream		file;
- 	int 				i = 0;
+ 	// int 				i = 0;
  	int					sock;
  	int					client_sock;
  	char				buf_client[1000];

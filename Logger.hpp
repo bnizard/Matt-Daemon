@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Daemon.hpp                                         :+:      :+:    :+:   */
+/*   Logger.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/14 18:14:00 by aleung-c          #+#    #+#             */
-/*   Updated: 2016/06/14 18:14:05 by aleung-c         ###   ########.fr       */
+/*   Created: 2016/06/15 13:40:39 by aleung-c          #+#    #+#             */
+/*   Updated: 2016/06/15 13:40:42 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DAEMON_HPP
-# define DAEMON_HPP
+
+
+#ifndef LOGGER_HPP
+# define LOGGER_HPP
 
 # include "Matt_Daemon.hpp"
 
-/*
-** Classe du serveur daemon : initialisation, listen 4242, ecrire dans le logs.
-*/
-
-class Daemon
+class Logger
 {
 	public:
-		Daemon( void );
-		~Daemon( void );
+		std::ofstream		File;
+		Tintin_reporter		Tintin;
 
-		//Tintin_reporter		Journal;
-		int		create_server(int port);
-		int		main_test();
+		Logger( void );
+		~Logger( void );
+
+		void InitLogger( void );
 };
 
 #endif

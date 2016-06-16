@@ -10,20 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Matt_Daemon.hpp"
+
 
 #ifndef TINTIN_REPORTER_HPP
-#define TINTIN_REPORTER_HPP
+# define TINTIN_REPORTER_HPP
+
+# include "Matt_Daemon.hpp"
 
 /*
-** Classe de journalisation du daemon. Creer le fichier et le lock. Ecrit dedans.
+** Classe de journalisation. Ecrit et lock le fichier.
 */
 
 class Tintin_reporter
 {
 	public:
-		Tintin_reporter();
-		~Tintin_reporter();
+		bool			WithTimeStamp;
+
+						Tintin_reporter();
+						~Tintin_reporter();
+
+		void			SetLogFile(std::ofstream *SelectedFile);
+		void			UnsetLogFile();
+		void			CreateNewLogFile(std::string str);
+
+		//void AddLogToFile(std::ofstream SelectedFile, std::string Str);
+		//void AddLog(std::string Str);
+
+	private:
+		time_t			timev;
+		std::ofstream	*logFile;
+		bool			logFileSet;
+
+		void			PrintTimeStamp(std::ofstream *SelectedFile);
 };
 
 

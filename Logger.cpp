@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Daemon.hpp                                         :+:      :+:    :+:   */
+/*   Logger.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/14 18:14:00 by aleung-c          #+#    #+#             */
-/*   Updated: 2016/06/14 18:14:05 by aleung-c         ###   ########.fr       */
+/*   Created: 2016/06/15 13:40:10 by aleung-c          #+#    #+#             */
+/*   Updated: 2016/06/15 13:40:33 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DAEMON_HPP
-# define DAEMON_HPP
+#include "Matt_Daemon.hpp"
 
-# include "Matt_Daemon.hpp"
-
-/*
-** Classe du serveur daemon : initialisation, listen 4242, ecrire dans le logs.
-*/
-
-class Daemon
+Logger::Logger( void )
 {
-	public:
-		Daemon( void );
-		~Daemon( void );
+	InitLogger();
+}
 
-		//Tintin_reporter		Journal;
-		int		create_server(int port);
-		int		main_test();
-};
+Logger::~Logger( void )
+{
 
-#endif
+}
+
+void Logger::InitLogger( void )
+{
+	// Create file
+	// File.open("/var/log/matt_daemon/matt_daemon.log");
+	//Tintin = new Tintin_reporter();
+	File.open("./testlogfile.log");
+	Tintin.SetLogFile(&File);
+}

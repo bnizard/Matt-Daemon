@@ -16,7 +16,7 @@ int main ()
 {
 	Daemon d;
 
-	d.create_server(4242);
+	// d.create_server(4242);
 
 	return (d.main_test());
 }

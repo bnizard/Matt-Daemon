@@ -27,6 +27,7 @@ int		Daemon::create_server(int port)
 	int					sock;
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
+	std::ofstream		outputFile;
 
 	proto = getprotobyname("tcp");
 	if (!proto)
@@ -37,13 +38,15 @@ int		Daemon::create_server(int port)
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);
 	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
 	{
-		printf("error bind");
+		outputFile.open("Error.txt");
+		outputFile << "error bind";
+		outputFile.close();
 		exit (-1);
 	}
 
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
-	listen(sock, 42);
+	listen(sock, 3);
 	printf("- Awaiting connections... -\n");
 	return (sock);
 }
@@ -53,6 +56,7 @@ int Daemon::main_test ()
 
  	pid_t				pid, sid;
  	std::ofstream		outputFile;
+ 	std::ofstream		file;
  	int 				i = 0;
  	int					sock;
  	int					client_sock;
@@ -79,13 +83,21 @@ int Daemon::main_test ()
     }
 
     outputFile.open("test2.txt");
+    file.open("toto.txt");
 	sock = create_server(4242);
+	file << "lol1";
 	client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
+	file << "lol";
+	file.close();
 	while ((ret = read(client_sock, buf_client, 1000 - 1)))
 	{
+		
 		buf_client[ret] = '\0';
+		if (strcmp(buf_client, "quit") == 0)
+			break;
 		outputFile << buf_client;
 	}
+	outputFile.close();
 	std::cout << "exit after read\n";
 	return (EXIT_SUCCESS);
 }

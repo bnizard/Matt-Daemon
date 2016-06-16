@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream>
 
+
+# include <cstring>
+
 # include <stdio.h>
 # include <sys/socket.h>
 # include <arpa/inet.h>

@@ -43,7 +43,7 @@ int		Daemon::create_server(int port)
 		outputFile.close();
 		exit (-1);
 	}
-
+	// Log.Created();
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
 	listen(sock, 3);
@@ -68,7 +68,7 @@ int Daemon::main_test ()
 
 	ret = 0;
 
-  	//Fork the Parent Process
+  	// Fork the Parent Process
     pid = fork();
 
     if (pid < 0) {
@@ -82,18 +82,14 @@ int Daemon::main_test ()
     	exit(EXIT_SUCCESS);
     }
 
-    outputFile.open("test2.txt");
-    file.open("toto.txt");
+    outputFile.open("test.txt");
 	sock = create_server(4242);
-	file << "lol1";
 	client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
-	file << "lol";
-	file.close();
 	while ((ret = read(client_sock, buf_client, 1000 - 1)))
-	{
-		
+	{	
 		buf_client[ret] = '\0';
-		if (strcmp(buf_client, "quit") == 0)
+		printf("%s", buf_client);
+		if (strcmp(buf_client, "quit\n") == 0)
 			break;
 		outputFile << buf_client;
 	}

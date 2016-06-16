@@ -21,6 +21,10 @@ Daemon::~Daemon( void )
 {
 
 }
+bool    Daemon::isAlreadyRunning()
+{
+   return (system("pgrep Matt_daemon > /dev/null"));  
+}
 
 int		Daemon::create_server(int port)
 {
@@ -68,6 +72,11 @@ int Daemon::main_test ()
 
 	ret = 0;
 
+	if (!isAlreadyRunning())
+	{
+		printf("Process already running\n");
+		exit(-1);
+	}
   	// Fork the Parent Process
     pid = fork();
 
@@ -94,6 +103,5 @@ int Daemon::main_test ()
 		outputFile << buf_client;
 	}
 	outputFile.close();
-	std::cout << "exit after read\n";
 	return (EXIT_SUCCESS);
 }

@@ -47,7 +47,6 @@ int		Daemon::create_server(int port)
 		outputFile.close();
 		exit (-1);
 	}
-	// Log.Created();
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
 	listen(sock, 3);
@@ -90,7 +89,9 @@ int Daemon::main_test ()
     	std::cout << "exit success\n";
     	exit(EXIT_SUCCESS);
     }
-
+    
+    Log.Init();
+    Log.Created();
     outputFile.open("test.txt");
 	sock = create_server(4242);
 	client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);

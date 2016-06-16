@@ -34,20 +34,22 @@ class Tintin_reporter
 						// ... copplian etc ...
 
 		// My Public methods
-		void			SetLogFile(std::ofstream *SelectedFile);
+		void			SetLogFile(std::string SelectedFilePath);
 		void			UnsetLogFile();
 		void			CreateNewLogFile(std::string str);
 
-		void			AddLogToFile(std::ofstream *SelectedFile, std::string Text);
+		void			AddLogToFile(std::string SelectedFilePath,
+														std::string Text);
 		void			AddLog(std::string Str);
 
 	private:
 		time_t			timev;
-		std::ofstream	*logFile;
+		std::string		logFilePath;
+		std::ofstream	logFileHandler;
 		bool			islogFileSet;
 
 		// My private methods
-		void			PrintTimeStamp(std::ofstream *SelectedFile);
+		void			PrintTimeStamp(std::ofstream *fileHandler);
 };
 
 

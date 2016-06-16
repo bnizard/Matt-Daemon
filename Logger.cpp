@@ -14,7 +14,7 @@
 
 Logger::Logger( void )
 {
-	InitLogger();
+	Tintin.UnsetLogFile();
 }
 
 Logger::~Logger( void )
@@ -22,12 +22,11 @@ Logger::~Logger( void )
 
 }
 
-void Logger::InitLogger( void )
+void Logger::Init( void )
 {
-	// Create file
-	// File.open("/var/log/matt_daemon/matt_daemon.log");
-	//Tintin = new Tintin_reporter();
-	this->Tintin.CreateNewLogFile("./test2.txt");
+	Tintin.CreateNewLogFile("test2.txt");
+	// Correct path is "/var/log/matt_daemon/matt_daemon.log"
+	
 }
 
 void Logger::AddLog(std::string Str)

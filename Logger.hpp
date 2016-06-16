@@ -24,16 +24,16 @@ class Logger
 		Tintin_reporter		Tintin;
 
 		// Default Public methods
-				Logger( void );
-				~Logger( void );
-				// Copplien ....
-
-		void	InitLogger( void );
+							Logger( void );
+							~Logger( void );
+							// Copplien ....
 
 		// My public methods.
-		void	AddLog(std::string Str);
-		void	Created();
-		void	Closed();
+		void				Init( void );
+		
+		void				AddLog(std::string Str);
+		void				Created();
+		void				Closed();
 };
 
 #endif

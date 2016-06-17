@@ -26,7 +26,7 @@ bool    Daemon::isAlreadyRunning()
    return (system("pgrep Matt_daemon > /dev/null"));  
 }
 
-int		Daemon::create_server(int port)
+int		Daemon::CreateServer(int port)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -54,22 +54,20 @@ int		Daemon::create_server(int port)
 	return (sock);
 }
 
-int Daemon::main_test ()
+int		Daemon::Daemon_Main ()
 {
 
- 	pid_t				pid;
- 	std::ofstream		outputFile;
- 	std::ofstream		file;
- 	// int 				i = 0;
- 	int					sock;
- 	int					client_sock;
- 	char				buf_client[1000];
-	
-	unsigned int		cslen;
-	struct sockaddr_in	*csin;
-	int ret;
+	if (this->CreateDaemonProcess() != EXIT_SUCCESS
+	|| this->DaemonServer() != EXIT_SUCCESS)
+	{
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
-	ret = 0;
+int 	Daemon::CreateDaemonProcess()
+{
+	pid_t				pid;
 
 	if (!isAlreadyRunning())
 	{
@@ -89,20 +87,37 @@ int Daemon::main_test ()
     	std::cout << "exit success\n";
     	exit(EXIT_SUCCESS);
     }
-    
+    return (EXIT_SUCCESS);
+}
+
+int 	Daemon::DaemonServer()
+{
+ 	int					sock;
+ 	int					client_sock;
+ 	char				buf_client[1000];
+
+	unsigned int		cslen;
+	struct sockaddr_in	*csin;
+	int					ret; // pour le read.
+
+	ret = 0;
     Log.Init();
+    SigHandler.SetLog(&Log);
+    SigHandler.SetDaemon(this);
+    SigHandler.RegisterSignals();
     Log.Created();
-    outputFile.open("test.txt");
-	sock = create_server(4242);
+	sock = CreateServer(4242);
 	client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
 	while ((ret = read(client_sock, buf_client, 1000 - 1)))
-	{	
+	{
 		buf_client[ret] = '\0';
 		printf("%s", buf_client);
 		if (strcmp(buf_client, "quit\n") == 0)
+		{
+			Log.Closed();
 			break;
-		outputFile << buf_client;
+		}
+		Log.AddLog(buf_client);
 	}
-	outputFile.close();
 	return (EXIT_SUCCESS);
 }

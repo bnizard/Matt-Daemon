@@ -22,13 +22,21 @@
 class Daemon
 {
 	public:
-		Daemon( void );
-		~Daemon( void );
+		// public attributes
+		Logger				Log;
+		Signal_handler		SigHandler;
 
-		Logger	Log;
-		int		create_server(int port);
-		int		main_test();
-		bool    isAlreadyRunning();
+		// public defaults
+							Daemon( void );
+							~Daemon( void );
+
+		// public methods
+		int					CreateServer(int port);
+		int					Daemon_Main();
+
+		int 				DaemonServer();
+		int 				CreateDaemonProcess();
+		bool    			isAlreadyRunning();
 };
 
 #endif

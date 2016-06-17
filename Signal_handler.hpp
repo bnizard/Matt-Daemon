@@ -1,37 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Logger.hpp                                         :+:      :+:    :+:   */
+/*   Signal_handler.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/15 13:40:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2016/06/15 13:40:42 by aleung-c         ###   ########.fr       */
+/*   Created: 2016/06/17 12:14:31 by aleung-c          #+#    #+#             */
+/*   Updated: 2016/06/17 12:14:32 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGER_HPP
-# define LOGGER_HPP
+
+#ifndef SIGNAL_HANDLER_HPP
+# define SIGNAL_HANDLER_HPP
 
 # include "Matt_Daemon.hpp"
 
-class Logger
+class Signal_handler
 {
 	public:
-		std::ofstream		File;
-		Tintin_reporter		Tintin;
 
+		//static Signal_handler	*instance;
 		// Default Public methods
-							Logger( void );
-							~Logger( void );
-							// Copplien ....
+								Signal_handler( void );
+								~Signal_handler( void );
 
-		// My public methods.
-		void				Init( void );
-		
-		void				AddLog(std::string Str);
-		void				Created();
-		void				Closed();
+		void					RegisterSignals();
+
+		// Setters
+		void					SetLog(Logger *Nlog);
+		void					SetDaemon(Daemon *Ndaemon);
+
+		static void				signalHandler( int signum );
+
+	private:
+		Logger					*log;
+		Daemon					*daemon;
+	
 };
+
+
+extern Signal_handler *instance;
 
 #endif

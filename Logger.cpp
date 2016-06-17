@@ -26,7 +26,6 @@ void Logger::Init( void )
 {
 	Tintin.CreateNewLogFile("test2.txt");
 	// Correct path is "/var/log/matt_daemon/matt_daemon.log"
-	
 }
 
 void Logger::AddLog(std::string Str)

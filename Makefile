@@ -12,10 +12,12 @@
 
 NAME = Matt_daemon
 
-SRC = main.cpp \
+SRC = Signal_handler.cpp \
+main.cpp \
 Daemon.cpp \
 Logger.cpp \
 Tintin_reporter.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 

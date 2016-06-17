@@ -37,7 +37,6 @@ void		Signal_handler::RegisterSignals()
 	std::signal(SIGILL, signalHandler);
 	std::signal(SIGSEGV, signalHandler);
 	std::signal(SIGTERM, signalHandler);
-
 }
 
 void		Signal_handler::signalHandler( int signum )

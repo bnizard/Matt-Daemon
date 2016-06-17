@@ -14,6 +14,6 @@
 
 int main ()
 {
-	Daemon *d = new Daemon();
-	return (d->Daemon_Main());
+	Daemon d;
+	return (d.Daemon_Main());
 }

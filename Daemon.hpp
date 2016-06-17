@@ -37,6 +37,7 @@ class Daemon
 		int 				DaemonServer();
 		int 				CreateDaemonProcess();
 		bool    			isAlreadyRunning();
+		void				EndOfDaemon();
 };
 
 #endif

@@ -14,16 +14,37 @@
 
 Daemon::Daemon( void )
 {
-
+	if (chdir("/var/lock/") == -1)
+		system("mkdir \"/var/lock\"");
+	open("/var/lock/matt_daemon.lock", O_CREAT);
 }
 
 Daemon::~Daemon( void )
 {
-
+	EndOfDaemon();
 }
+
+void	Daemon::EndOfDaemon()
+{
+	int fd;
+	int rc;
+
+	fd = open("/var/lock/matt_daemon.lock", O_RDONLY);
+
+	if ((rc = flock(fd, LOCK_UN) == 0))
+		remove ("/var/lock/matt_daemon.lock");
+	exit(0);
+}
+
 bool    Daemon::isAlreadyRunning()
 {
-   return (system("pgrep Matt_daemon > /dev/null"));  
+	int fd;
+	int rc;
+
+	fd = open("/var/lock/matt_daemon.lock", O_RDONLY);
+	if ((rc = flock(fd, LOCK_EX | LOCK_NB)))
+		return false;
+	return true;
 }
 
 int		Daemon::CreateServer(int port)
@@ -45,7 +66,7 @@ int		Daemon::CreateServer(int port)
 		outputFile.open("Error.txt");
 		outputFile << "error bind";
 		outputFile.close();
-		exit (-1);
+		EndOfDaemon();
 	}
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
@@ -69,11 +90,18 @@ int 	Daemon::CreateDaemonProcess()
 {
 	pid_t				pid;
 
+ 	if (getuid())
+ 	{
+ 		printf("%s", "You must be root!\n");
+ 		EndOfDaemon();
+ 	}
+
 	if (!isAlreadyRunning())
 	{
 		printf("Process already running\n");
 		exit(-1);
 	}
+	// exit(0);
   	// Fork the Parent Process
     pid = fork();
 

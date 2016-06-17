@@ -26,6 +26,7 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <sys/types.h>
+#include <sys/file.h>
 
 // Class definitions
 

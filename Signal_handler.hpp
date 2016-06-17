@@ -20,7 +20,7 @@ class Signal_handler
 {
 	public:
 
-		//static Signal_handler	*instance;
+		static Signal_handler	*instance;
 		// Default Public methods
 								Signal_handler( void );
 								~Signal_handler( void );
@@ -39,7 +39,5 @@ class Signal_handler
 	
 };
 
-
-extern Signal_handler *instance;
 
 #endif

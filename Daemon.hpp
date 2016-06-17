@@ -28,6 +28,7 @@ class Daemon
 		Logger	Log;
 		int		create_server(int port);
 		int		main_test();
+		bool    isAlreadyRunning();
 };
 
 #endif

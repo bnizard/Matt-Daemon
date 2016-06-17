@@ -54,9 +54,12 @@ void Tintin_reporter::UnsetLogFile()
 */
 void Tintin_reporter::CreateNewLogFile(std::string FilePath)
 {
+	char *Str = new char[FilePath.length() + 1];
+	std::strcpy(Str, FilePath.c_str());
+
 	if (this->islogFileSet == false)
 	{
-		logFileHandler.open(FilePath);
+		logFileHandler.open(Str);
 		logFilePath = FilePath;
 		this->islogFileSet = true;
 		logFileHandler.close();
@@ -65,6 +68,7 @@ void Tintin_reporter::CreateNewLogFile(std::string FilePath)
 	{
 		std::cout << "File already set for Tintin_reporter. Use UnsetLogFile() first.\n";
 	}
+	delete[] Str;
 }
 
 /*
@@ -73,12 +77,16 @@ void Tintin_reporter::CreateNewLogFile(std::string FilePath)
 void Tintin_reporter::AddLogToFile(std::string SelectedFilePath, std::string Text)
 {
 	std::ofstream	CurFileStream;
-	CurFileStream.open(SelectedFilePath, std::fstream::app);
+	char *Str = new char[SelectedFilePath.length() + 1];
+	std::strcpy(Str, SelectedFilePath.c_str());
+
+	CurFileStream.open(Str, std::fstream::app);
 	if (WithTimeStamp)
 	{
 		PrintTimeStamp(&CurFileStream);
 	}
 	CurFileStream << Text << "\n";
+	delete[] Str;
 }
 
 /*
@@ -86,9 +94,12 @@ void Tintin_reporter::AddLogToFile(std::string SelectedFilePath, std::string Tex
 */
 void Tintin_reporter::AddLog(std::string Text)
 {
+	char *Str = new char[logFilePath.length() + 1];
+	std::strcpy(Str, logFilePath.c_str());
+	
 	if (this->islogFileSet == true)
 	{
-		logFileHandler.open(logFilePath, std::fstream::app);
+		logFileHandler.open(Str, std::fstream::app);
 		if (WithTimeStamp)
 		{
 			PrintTimeStamp(&logFileHandler);

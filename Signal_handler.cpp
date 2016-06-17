@@ -13,7 +13,8 @@
 
 #include "Matt_Daemon.hpp"
 
-Signal_handler *instance;
+
+Signal_handler *Signal_handler::instance = NULL;
 
 // signal() requires a static method. that's why I create an instance of the current
 // signal handler object, to use it in the static method.
@@ -31,12 +32,13 @@ Signal_handler::~Signal_handler( void )
 void		Signal_handler::RegisterSignals()
 {
 	// Some might not be catchables ...
-	std::signal(SIGABRT, signalHandler);
-	std::signal(SIGINT, signalHandler);
-	std::signal(SIGFPE, signalHandler);
-	std::signal(SIGILL, signalHandler);
-	std::signal(SIGSEGV, signalHandler);
-	std::signal(SIGTERM, signalHandler);
+	signal(SIGINT, Signal_handler::signalHandler);
+	signal(SIGABRT, Signal_handler::signalHandler);
+	signal(SIGFPE, Signal_handler::signalHandler);
+	signal(SIGILL, Signal_handler::signalHandler);
+	signal(SIGSEGV, Signal_handler::signalHandler);
+	signal(SIGTERM, Signal_handler::signalHandler);
+	printf("sig register\n");
 }
 
 void		Signal_handler::signalHandler( int signum )
@@ -47,17 +49,18 @@ void		Signal_handler::signalHandler( int signum )
 	{
 		LogString << "Received signal (" << signum << ").";
 		instance->log->AddLog(LogString.str());
-		if (instance->daemon != NULL)
-		{
-			//instance->daemon-> CLOSE SERVER CLEANLY METHOD ?.
-			//exit(0);
-		} else
-			std::cout << "No Daemon object set for Signal_Handler. Use SetDaemon().\n";
+		// if (instance->daemon != NULL)
+		// {
+		// 	//instance->daemon-> CLOSE SERVER CLEANLY METHOD ?.
+		// 	//exit(0);
+		// } else
+		// 	std::cout << "No Daemon object set for Signal_Handler. Use SetDaemon().\n";
 	}
 	else
 	{
 		std::cout << "No Logfile object set for Signal_Handler. Use SetLog().\n";
 	}
+	exit (signum);
 }
 
 // Setters

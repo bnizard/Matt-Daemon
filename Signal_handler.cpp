@@ -38,23 +38,16 @@ void		Signal_handler::RegisterSignals()
 	signal(SIGILL, Signal_handler::signalHandler);
 	signal(SIGSEGV, Signal_handler::signalHandler);
 	signal(SIGTERM, Signal_handler::signalHandler);
-	printf("sig register\n");
 }
 
 void		Signal_handler::signalHandler( int signum )
 {
-	printf("sig call\n");
 	std::stringstream LogString;
 	if (instance->log != NULL)
 	{
-		LogString << "Received signal (" << signum << ").";
+		LogString << "Received signal (" << signum << "). Quitting...";
 		instance->log->AddLog(LogString.str());
-		// if (instance->daemon != NULL)
-		// {
-		// 	//instance->daemon-> CLOSE SERVER CLEANLY METHOD ?.
-		// 	//exit(0);
-		// } else
-		// 	std::cout << "No Daemon object set for Signal_Handler. Use SetDaemon().\n";
+		exit(signum);
 	}
 	else
 	{

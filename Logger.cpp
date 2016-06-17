@@ -25,6 +25,7 @@ Logger::~Logger( void )
 void Logger::Init( void )
 {
 	Tintin.CreateNewLogFile("test2.txt");
+	Tintin.AddLog("Logger: Log file created.");
 	// Correct path is "/var/log/matt_daemon/matt_daemon.log"
 }
 

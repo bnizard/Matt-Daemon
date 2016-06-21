@@ -12,14 +12,27 @@
 
 #include "Matt_Daemon.hpp"
 
+// Init() is done after the server fork, that's why it's not used here.
 Logger::Logger( void )
 {
 	Tintin.UnsetLogFile();
 }
 
+Logger::Logger(Logger const &src)
+{
+	*this = src;
+}
+
 Logger::~Logger( void )
 {
 
+}
+
+Logger		&Logger::operator=(Logger const & rhs)
+{
+	if (&rhs != this)
+	{}
+	return (*this);
 }
 
 void Logger::Init( void )

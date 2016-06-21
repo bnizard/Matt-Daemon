@@ -18,6 +18,11 @@ Tintin_reporter::Tintin_reporter() :	WithTimeStamp(true), islogFileSet(false)
 
 }
 
+Tintin_reporter::Tintin_reporter( Tintin_reporter const &src )
+{
+	*this = src;
+}
+
 Tintin_reporter::~Tintin_reporter()
 {
 	// close file if file opened;
@@ -26,6 +31,13 @@ Tintin_reporter::~Tintin_reporter()
 		logFileHandler.close();
 		this->islogFileSet = false;
 	}
+}
+
+Tintin_reporter		&Tintin_reporter::operator=( Tintin_reporter const &rhs )
+{
+	islogFileSet = rhs.islogFileSet;
+	logFilePath = rhs.logFilePath;
+	return (*this);
 }
 
 /*

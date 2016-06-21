@@ -26,9 +26,11 @@ class Daemon
 		Logger				Log;
 		Signal_handler		SigHandler;
 
-		// public defaults
+		// public defaults Copplien
 							Daemon( void );
+							Daemon( Daemon const &src );
 							~Daemon( void );
+		Daemon 				&operator=( Daemon const &rhs );
 
 		// public methods
 		int					CreateServer(int port);

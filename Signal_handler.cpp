@@ -24,9 +24,21 @@ Signal_handler::Signal_handler( void ) : log(NULL), daemon(NULL)
 	instance = this;
 }
 
+Signal_handler::Signal_handler(Signal_handler const &src){
+	*this = src;
+}
+
 Signal_handler::~Signal_handler( void )
 {
 
+}
+
+Signal_handler &	Signal_handler::operator=(Signal_handler const & rhs)
+{
+	log = rhs.log;
+	daemon = rhs.daemon;
+	instance = this;
+	return (*this);
 }
 
 void		Signal_handler::RegisterSignals()

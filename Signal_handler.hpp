@@ -19,14 +19,16 @@
 class Signal_handler
 {
 	public:
-
+		// static singleton variable.
 		static Signal_handler	*instance;
-		// Default Public methods
+								// Copplien form methods
 								Signal_handler( void );
+								Signal_handler( Signal_handler const &src );
 								~Signal_handler( void );
+		Signal_handler 			&operator=( Signal_handler const &rhs );
 
+		// My methods
 		void					RegisterSignals();
-
 		// Setters
 		void					SetLog(Logger *Nlog);
 		void					SetDaemon(Daemon *Ndaemon);

@@ -198,7 +198,6 @@ int 	Daemon::DaemonServer()
             	perror("accept");
                 exit(EXIT_FAILURE);
             }
-			// add client sockets to table.
 			for (i = 0; i < max_clients; i++) 
             {
                 //if position is empty
@@ -210,6 +209,7 @@ int 	Daemon::DaemonServer()
                     break;
                 }
             }
+            // close(new_socket);
 		}
 		
 		// read on clients.

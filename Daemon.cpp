@@ -48,7 +48,7 @@ void	Daemon::EndOfDaemon()
 	exit(0);
 }
 
-bool    Daemon::isAlreadyRunning()
+bool	Daemon::isAlreadyRunning()
 {
 	int fd;
 	int rc;
@@ -114,50 +114,127 @@ int 	Daemon::CreateDaemonProcess()
 		exit(-1);
 	}
 	// exit(0);
-  	// Fork the Parent Process
-    pid = fork();
+	// Fork the Parent Process
+	pid = fork();
 
-    if (pid < 0) {
-    	std::cout << "exit failure\n";
-    	exit(EXIT_FAILURE);
-    }
+	if (pid < 0) {
+		std::cout << "exit failure\n";
+		exit(EXIT_FAILURE);
+	}
 
-    //We got a good pid, Close the Parent Process
-    if (pid > 0) {
-    	std::cout << "exit success\n";
-    	exit(EXIT_SUCCESS);
-    }
-    return (EXIT_SUCCESS);
+	//We got a good pid, Close the Parent Process
+	if (pid > 0) {
+		std::cout << "exit success\n";
+		exit(EXIT_SUCCESS);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int 	Daemon::DaemonServer()
 {
- 	int					sock;
- 	int					client_sock;
- 	char				buf_client[1000];
+	int					sock;
+	int					client_socket[3];
+	int 				max_clients = 3;
+	int 				max_sd;
+	int 				new_socket;
+	int 				sd;
+	char				buf_client[1000];
+	int i;
 
-	unsigned int		cslen;
-	struct sockaddr_in	*csin;
+	struct sockaddr_in	csin;
+	unsigned int		cslen = sizeof(csin);
 	int					ret; // pour le read.
 
+// select implementation
+	fd_set				readfs;
+
+	i = 0;
 	ret = 0;
-    Log.Init();
-    SigHandler.SetLog(&Log);
-    SigHandler.SetDaemon(this);
-    SigHandler.RegisterSignals();
-    Log.Created();
+	Log.Init();
+	SigHandler.SetLog(&Log);
+	SigHandler.SetDaemon(this);
+	SigHandler.RegisterSignals();
 	sock = CreateServer(4242);
-	client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
-	while ((ret = read(client_sock, buf_client, 1000 - 1)))
+	Log.Created();
+
+	//initialise all client_socket[] to 0 so not checked
+    for (i = 0; i < max_clients; i++) 
+    {
+        client_socket[i] = 0;
+    }
+
+	// Client reception loop
+	while (1)
 	{
-		buf_client[ret] = '\0';
-		printf("%s", buf_client);
-		if (strcmp(buf_client, "quit\n") == 0)
+		FD_ZERO(&readfs);
+		FD_SET(sock, &readfs);
+		max_sd = sock;
+
+		 // add child sockets to set
+        for ( i = 0 ; i < max_clients ; i++) 
+        {
+            //socket descriptor
+            sd = client_socket[i];
+            //if valid socket descriptor then add to read list
+            if (sd > 0)
+                FD_SET( sd , &readfs);
+            //highest file descriptor number, need it for the select function
+            if(sd > max_sd)
+                max_sd = sd;
+        }
+
+		//ft_sock_reception(client_sock);
+		if ((ret = select(max_sd + 1, &readfs, NULL, NULL, NULL)) < 0)
 		{
-			Log.Closed();
-			break;
+			exit(-1);
 		}
-		Log.AddLog(buf_client);
+
+		// Get new connections and add them to table
+		if (FD_ISSET(sock, &readfs) && ret > 0)
+		{
+			printf("toto\n");
+			if ((new_socket = accept(sock, (struct sockaddr *)&csin, (socklen_t*)&cslen)) < 0)
+            {
+            	perror("accept");
+                exit(EXIT_FAILURE);
+            }
+			for (i = 0; i < max_clients; i++) 
+            {
+                //if position is empty
+                if (client_socket[i] == 0 )
+                {
+                    client_socket[i] = new_socket;
+                    printf("Adding to list of sockets as %d\n" , i);
+                     
+                    break;
+                }
+            }
+            // close(new_socket);
+		}
+		
+		// read on clients.
+        for (i = 0; i < max_clients; i++) 
+    	{
+    		sd = client_socket[i];
+            if (FD_ISSET(client_socket[i] , &readfs))
+			{
+				//client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
+				ret = read(sd, buf_client, 1000 - 1);
+				{
+					buf_client[ret] = '\0';
+					printf("%s", buf_client);
+					if (strcmp(buf_client, "quit\n") == 0)
+					{
+						Log.Closed();
+						close(sock);
+						EndOfDaemon();
+					}
+					Log.AddLog(buf_client);
+				}
+			}
+		}
 	}
+	//closesocket(sock);
+	perror("Exit");
 	return (EXIT_SUCCESS);
 }

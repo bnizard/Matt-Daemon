@@ -16,6 +16,9 @@
 // Time format
 # include <ctime>
 
+//On inclut la bibliothèque gmp (Si gmpxx.h missing faire apt-get install libgmp-dev)
+#include <gmpxx.h>
+
 // Signals
 # include <csignal>
 

@@ -25,31 +25,32 @@ class Tintin_reporter
 {
 	public:
 		// Public members
-		bool			WithTimeStamp;
+		bool				WithTimeStamp;
 
 		// Default Public methods
-						Tintin_reporter();
-						~Tintin_reporter();
-						// default copy operator overload
-						// ... copplian etc ...
+							Tintin_reporter();
+							Tintin_reporter( Tintin_reporter const &src );
+							~Tintin_reporter();
+		Tintin_reporter		&operator=( Tintin_reporter const &rhs );
+						
 
 		// My Public methods
-		void			SetLogFile(std::string SelectedFilePath);
-		void			UnsetLogFile();
-		void			CreateNewLogFile(std::string str);
+		void				SetLogFile(std::string SelectedFilePath);
+		void				UnsetLogFile();
+		void				CreateNewLogFile(std::string str);
 
-		void			AddLogToFile(std::string SelectedFilePath,
+		void				AddLogToFile(std::string SelectedFilePath,
 														std::string Text);
-		void			AddLog(std::string Str);
+		void				AddLog(std::string Str);
 
 	private:
-		time_t			timev;
-		std::string		logFilePath;
-		std::ofstream	logFileHandler;
-		bool			islogFileSet;
+		time_t				timev;
+		std::string			logFilePath;
+		std::ofstream		logFileHandler;
+		bool				islogFileSet;
 
 		// My private methods
-		void			PrintTimeStamp(std::ofstream *fileHandler);
+		void				PrintTimeStamp(std::ofstream *fileHandler);
 };
 
 

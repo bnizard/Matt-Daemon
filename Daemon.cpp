@@ -19,9 +19,21 @@ Daemon::Daemon( void )
 	open("/var/lock/matt_daemon.lock", O_CREAT);
 }
 
+Daemon::Daemon( Daemon const &src )
+{
+	*this = src;
+}
+
 Daemon::~Daemon( void )
 {
 	EndOfDaemon();
+}
+
+Daemon 				&Daemon::operator=( Daemon const &rhs )
+{
+	Log = rhs.Log;
+	SigHandler = rhs.SigHandler;
+	return (*this);
 }
 
 void	Daemon::EndOfDaemon()

@@ -21,10 +21,11 @@ class Logger
 		std::ofstream		File;
 		Tintin_reporter		Tintin;
 
-		// Default Public methods
+		// Default Copplien methods
 							Logger( void );
+							Logger( Logger const &src );
 							~Logger( void );
-							// Copplien ....
+		Logger 				&operator=( Logger const &rhs );
 
 		// My public methods.
 		void				Init( void );

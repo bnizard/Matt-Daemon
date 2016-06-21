@@ -71,7 +71,7 @@ void Tintin_reporter::CreateNewLogFile(std::string FilePath)
 
 	if (this->islogFileSet == false)
 	{
-		logFileHandler.open(Str);
+		logFileHandler.open(Str, std::ios_base::app);
 		logFilePath = FilePath;
 		this->islogFileSet = true;
 		logFileHandler.close();
@@ -92,7 +92,7 @@ void Tintin_reporter::AddLogToFile(std::string SelectedFilePath, std::string Tex
 	char *Str = new char[SelectedFilePath.length() + 1];
 	std::strcpy(Str, SelectedFilePath.c_str());
 
-	CurFileStream.open(Str, std::fstream::app);
+	CurFileStream.open(Str, std::ios_base::app);
 	if (WithTimeStamp)
 	{
 		PrintTimeStamp(&CurFileStream);

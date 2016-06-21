@@ -37,9 +37,12 @@ Logger		&Logger::operator=(Logger const & rhs)
 
 void Logger::Init( void )
 {
-	Tintin.CreateNewLogFile("test2.txt");
+	if (chdir("/var/log/matt_daemon") == -1)
+		system("mkdir \"/var/log/matt_daemon\"");
+	open("/var/log/matt_daemon/matt_daemon.log", O_CREAT | O_APPEND);
+
+	Tintin.CreateNewLogFile("/var/log/matt_daemon/matt_daemon.log");
 	Tintin.AddLog("Logger: Log file created.");
-	// Correct path is "/var/log/matt_daemon/matt_daemon.log"
 }
 
 void Logger::AddLog(std::string Str)

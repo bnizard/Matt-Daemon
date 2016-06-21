@@ -22,11 +22,14 @@
 // Server includes
 # include <sys/socket.h>
 # include <arpa/inet.h>
+#include <netinet/in.h>
 # include <netdb.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <sys/types.h>
-#include <sys/file.h>
+# include <sys/file.h>
+# include <sys/select.h>
+# include <errno.h>
 
 // Class definitions
 

@@ -12,8 +12,22 @@
 
 #include "Matt_Daemon.hpp"
 
-int main ()
+int main (int argc, char **argv)
 {
 	Daemon d;
+
+	d.SetEncryption(true);
+	if (argc > 1)
+	{
+		if ((strcmp(argv[1], "-u") == 0)  && argc == 2)
+		{
+			d.SetEncryption(false);
+		}
+		else
+		{
+			printf("Usage: ./Matt_Daemon [-u]\n");
+			return (-1);
+		}
+	}
 	return (d.Daemon_Main());
 }

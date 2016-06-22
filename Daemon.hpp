@@ -40,6 +40,12 @@ class Daemon
 		int 				CreateDaemonProcess();
 		bool    			isAlreadyRunning();
 		void				EndOfDaemon();
+
+		// Setters
+		void				SetEncryption(bool b);
+
+	private:
+		bool				HasEncryption;
 };
 
 #endif

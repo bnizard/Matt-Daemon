@@ -238,3 +238,10 @@ int 	Daemon::DaemonServer()
 	perror("Exit");
 	return (EXIT_SUCCESS);
 }
+
+// Setters
+
+void	Daemon::SetEncryption(bool b)
+{
+	this->HasEncryption = b;
+}

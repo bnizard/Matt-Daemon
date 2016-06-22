@@ -16,7 +16,8 @@ SRC = Signal_handler.cpp \
 main.cpp \
 Daemon.cpp \
 Logger.cpp \
-Tintin_reporter.cpp
+Tintin_reporter.cpp \
+Cryptage.cpp
 
 
 OBJ = $(SRC:.cpp=.o)

@@ -204,7 +204,7 @@ int 	Daemon::DaemonServer()
                 {
                     client_socket[i] = new_socket;
                     printf("Adding to list of sockets as %d\n" , i);
-                     
+                    
                     break;
                 }
             }
@@ -219,6 +219,7 @@ int 	Daemon::DaemonServer()
 			{
 				//client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
 				ret = read(sd, buf_client, 1000 - 1);
+				if (ret != 0)
 				{
 					buf_client[ret] = '\0';
 					write(1, buf_client, strlen(buf_client));

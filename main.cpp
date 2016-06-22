@@ -16,6 +16,9 @@ int main (int argc, char **argv)
 {
 	Daemon d;
 
+	// Cryptage c;
+	// std::cout << c.CryptMessage("Bonjour !") << std::endl;
+	// std::cout << c.UnCryptMessage(c.CryptMessage("Bonjour !")) << std::endl;
 	d.SetEncryption(true);
 	if (argc > 1)
 	{

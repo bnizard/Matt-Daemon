@@ -86,8 +86,8 @@ int		Client::create_client(char *addr, int port)
 		exit (-1);
 	}
 	printf("SUCCESS - Connected to server.\n");
-	printf("Port: %d\n", port);
-	printf("Client socket: %d\n", sock);
+	//printf("Port: %d\n", port);
+	//printf("Client socket: %d\n", sock);
 	return (sock);
 }
 

@@ -34,7 +34,7 @@ OBJ = $(SRC:.cpp=.o)
 
 OBJ2 = $(SRC2:.cpp=.o)
 
-CC = clang++ -Wall -Werror -Wextra
+CC = clang++ -Wall -Werror -Wextra -lgmp
 
 all: $(NAME1) $(NAME2)
 

@@ -45,7 +45,7 @@ class Daemon
 		void				SetEncryption(bool b);
 
 	private:
-		bool				HasEncryption;
+		bool				_hasEncryption;
 };
 
 #endif

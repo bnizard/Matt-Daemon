@@ -243,5 +243,5 @@ int 	Daemon::DaemonServer()
 
 void	Daemon::SetEncryption(bool b)
 {
-	this->HasEncryption = b;
+	this->_hasEncryption = b;
 }

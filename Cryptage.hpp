@@ -27,7 +27,6 @@ class Cryptage
 							Cryptage( Cryptage const &src );
 							~Cryptage( void );
 		Cryptage 			&operator=( Cryptage const &rhs );
-							Cryptage( int* PublicKey, int* PrivateKey);
 
 		// public methods
 		std::string CryptMessage(std::string message);
@@ -36,8 +35,8 @@ class Cryptage
 			void	setPublicKey(char *PathToFile);
 			void	setPrivateKey(char *PathToFile);
 
-			int  	_PublicKey[2];
-			int  	_PrivateKey[2];
+			char  	*_PublicKey[2];
+			char 	*_PrivateKey[2];
 };
 
 #endif

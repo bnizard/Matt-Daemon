@@ -45,8 +45,8 @@ void Cryptage::setPublicKey(char *PathToFile)
 			myReadFile >> output;
  		}
 	}
-	_PublicKey[0] = atoi(std::strtok(output, ";"));
-	_PublicKey[1] = atoi(std::strtok(NULL, ";"));
+	_PublicKey[0] = std::strtok(output, ";");
+	_PublicKey[1] = std::strtok(NULL, ";");
 	myReadFile.close();
 }
 
@@ -62,19 +62,10 @@ void Cryptage::setPrivateKey(char *PathToFile)
 			myReadFile >> output;
  		}
 	}
-	_PrivateKey[0] = atoi(std::strtok(output, ";"));
-	_PrivateKey[1] = atoi(std::strtok(NULL, ";"));
+	_PrivateKey[0] = std::strtok(output, ";");
+	_PrivateKey[1] = std::strtok(NULL, ";");
 	myReadFile.close();
 }
-
-Cryptage::Cryptage(int* PubKey, int* PrivKey)
-{
-	_PublicKey[0] = PubKey[0];
-	_PublicKey[1] = PubKey[1];
-	_PrivateKey[0] = PrivKey[0];
-	_PrivateKey[1] = PrivKey[1];
-}
-
 
 std::string Cryptage::CryptMessage(std::string message)
 {
@@ -90,8 +81,8 @@ std::string Cryptage::CryptMessage(std::string message)
 	{
 		sprintf(buf, "%d", (int)message[i]);
 		mpz_set_str (val, buf, 10);
-		mpz_set_str (exp, "7", 10);
-		mpz_set_str (mod, "5141", 10);
+		mpz_set_str (exp, _PublicKey[1], 10);
+		mpz_set_str (mod, _PublicKey[0], 10);
 		mpz_powm(res, val, exp, mod);
 		result += mpz_get_str(NULL, 10, res);
 		if (i < message.length() - 1)
@@ -127,8 +118,8 @@ std::string Cryptage::UnCryptMessage(std::string message)
 	std::list<char*>::iterator p = lst.begin();
   	while (p != lst.end()) {
   		mpz_set_str (val, *p, 10);
-		mpz_set_str (exp, "4279", 10);
-		mpz_set_str (mod, "5141", 10);
+		mpz_set_str (exp, _PrivateKey[0], 10);
+		mpz_set_str (mod, _PrivateKey[1], 10);
 		mpz_powm(res, val, exp, mod);
 		result += (char)mpz_get_si(res);
    		p++;

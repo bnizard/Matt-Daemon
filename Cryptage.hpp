@@ -11,9 +11,6 @@
 class Cryptage
 {
 	public:
-		// public attributes
-		int  PublicKey[2];
-		int  PrivateKey[2];
 		// public defaults Copplien
 							Cryptage( void );
 							Cryptage( Cryptage const &src );
@@ -22,8 +19,14 @@ class Cryptage
 							Cryptage( int* PublicKey, int* PrivateKey);
 
 		// public methods
-		std::string CryptMessage();
-		std::string UnCryptMessage();
+		std::string CryptMessage(std::string message);
+		std::string UnCryptMessage(std::string message);
+	private:
+			void	setPublicKey(char *PathToFile);
+			void	setPrivateKey(char *PathToFile);
+
+			int  	_PublicKey[2];
+			int  	_PrivateKey[2];
 };
 
 #endif

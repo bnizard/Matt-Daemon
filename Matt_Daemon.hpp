@@ -8,6 +8,7 @@
 # include <iostream>
 # include <sstream>
 # include <fcntl.h>
+# include <list>
 
 // Journalisation
 # include <fstream>

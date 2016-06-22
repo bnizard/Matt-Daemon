@@ -16,18 +16,25 @@ int main (int argc, char **argv)
 {
 	Daemon d;
 
-	d.SetEncryption(true);
-	if (argc > 1)
-	{
-		if ((strcmp(argv[1], "-u") == 0)  && argc == 2)
-		{
-			d.SetEncryption(false);
-		}
-		else
-		{
-			printf("Usage: ./Matt_Daemon [-u]\n");
-			return (-1);
-		}
-	}
-	return (d.Daemon_Main());
+	Cryptage c;
+
+	// std::cout << c.CryptMessage("Bonjour !") << std::endl;
+	std::cout << c.UnCryptMessage(c.CryptMessage("Bonjour !")) << std::endl;
+	// d.SetEncryption(true);
+	// if (argc > 1)
+	// {
+	// 	if ((strcmp(argv[1], "-u") == 0)  && argc == 2)
+	// 	{
+	// 		d.SetEncryption(false);
+	// 	}
+	// 	else
+	// 	{
+	// 		printf("Usage: ./Matt_Daemon [-u]\n");
+	// 		return (-1);
+	// 	}
+	// }
+	// return (d.Daemon_Main());
+	(void)argv;
+	(void)argc;
+	return (0);
 }

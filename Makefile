@@ -22,7 +22,7 @@ Cryptage.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
-CC = clang++ -Wall -Werror -Wextra
+CC = clang++ -Wall -Werror -Wextra -lgmpxx -lgmp
 
 all: $(NAME)
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Matt_Daemon.hpp"
+#include "../includes/Matt_Daemon.hpp"
 
 // Init() is done after the server fork, that's why it's not used here.
 Logger::Logger( void )

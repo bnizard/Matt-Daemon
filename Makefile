@@ -13,25 +13,18 @@
 NAME1 = Matt_daemon
 NAME2 = Ben_AFK
 
-SRC = Signal_handler.cpp \
-main.cpp \
-Daemon.cpp \
-Logger.cpp \
-Tintin_reporter.cpp \
-Cryptage.cpp \
-Client.cpp
+SRC = ./src_Server/Signal_handler.cpp \
+./src_Server/main.cpp \
+./src_Server/Daemon.cpp \
+./src_Server/Logger.cpp \
+./src_Server/Tintin_reporter.cpp \
+./src_Common/Cryptage.cpp \
 
-SRC2 = Signal_handler.cpp \
-main_client.cpp \
-Daemon.cpp \
-Logger.cpp \
-Tintin_reporter.cpp \
-Cryptage.cpp \
-Client.cpp
-
+SRC2 = ./src_Client/main_client.cpp \
+./src_Client/Client.cpp \
+./src_Common/Cryptage.cpp
 
 OBJ = $(SRC:.cpp=.o)
-
 OBJ2 = $(SRC2:.cpp=.o)
 
 CC = clang++ -Wall -Werror -Wextra -lgmp

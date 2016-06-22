@@ -30,8 +30,7 @@ Logger::~Logger( void )
 
 Logger		&Logger::operator=(Logger const & rhs)
 {
-	if (&rhs != this)
-	{}
+	(void)rhs;
 	return (*this);
 }
 

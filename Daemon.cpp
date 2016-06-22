@@ -192,7 +192,6 @@ int 	Daemon::DaemonServer()
 		// Get new connections and add them to table
 		if (FD_ISSET(sock, &readfs) && ret > 0)
 		{
-			printf("toto\n");
 			if ((new_socket = accept(sock, (struct sockaddr *)&csin, (socklen_t*)&cslen)) < 0)
             {
             	perror("accept");
@@ -222,7 +221,7 @@ int 	Daemon::DaemonServer()
 				ret = read(sd, buf_client, 1000 - 1);
 				{
 					buf_client[ret] = '\0';
-					printf("%s", buf_client);
+					write(1, buf_client, strlen(buf_client));
 					if (strcmp(buf_client, "quit\n") == 0)
 					{
 						Log.Closed();

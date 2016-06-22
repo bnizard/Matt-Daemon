@@ -98,6 +98,7 @@ void Tintin_reporter::AddLogToFile(std::string SelectedFilePath, std::string Tex
 		PrintTimeStamp(&CurFileStream);
 	}
 	CurFileStream << Text << "\n";
+	CurFileStream.close();
 	delete[] Str;
 }
 

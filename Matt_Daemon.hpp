@@ -40,12 +40,14 @@ class Signal_handler;
 class Tintin_reporter;
 class Daemon;
 class Logger;
+class Client;
 class Cryptage;
 
 // Class files includes
 # include "Signal_handler.hpp"
 # include "Tintin_reporter.hpp"
 # include "Cryptage.hpp"
+# include "Client.hpp"
 # include "Logger.hpp"
 # include "Daemon.hpp"
 

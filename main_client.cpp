@@ -1,51 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cryptage.cpp                                       :+:      :+:    :+:   */
+/*   main_client.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/22 14:40:11 by aleung-c          #+#    #+#             */
-/*   Updated: 2016/06/22 14:40:15 by aleung-c         ###   ########.fr       */
+/*   Created: 2016/06/22 14:39:46 by aleung-c          #+#    #+#             */
+/*   Updated: 2016/06/22 14:39:59 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Matt_Daemon.hpp"
 
-Cryptage::Cryptage( void )
+int main(int argc, char **argv)
 {
+	Client		Cl;
 
-}
-
-Cryptage::Cryptage( Cryptage const &src )
-{
-  *this = src;
-}
-
-Cryptage::~Cryptage( void )
-{
-
-}
-
-Cryptage 			&Cryptage::operator=( Cryptage const &rhs )
-{
-	(void)rhs;
-	return (*this);
-}
-
-Cryptage::Cryptage( int* PublicKey, int* PrivateKey)
-{
-	(void)PublicKey;
-	(void)PrivateKey;
-}
-
-
-std::string Cryptage::CryptMessage()
-{
-	return (NULL);
-}
-
-std::string Cryptage::UnCryptMessage()
-{
-	return (NULL);
+	if (argc != 3)
+		Cl.usage();
+	else
+	{
+		Cl.port = atoi(argv[2]);
+		if (Cl.check_args_client(Cl.port) != 0)
+			return (-1);
+		Cl.sock = Cl.create_client(argv[1], Cl.port);
+		Cl.client_prompt(Cl.sock);
+		close(Cl.sock);
+	}
+	return (0);
 }

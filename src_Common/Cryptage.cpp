@@ -58,7 +58,6 @@ void Cryptage::setPublicKey(std::string PathToFile)
 	strcpy(s2, (char*)v->at(1).c_str());
 	_PublicKey[0] = s1;
 	_PublicKey[1] = s2;
-	// v->push_back("carbage");// sinon perte du dernier element
 	myReadFile.close();
 }
 
@@ -72,7 +71,6 @@ void Cryptage::setPrivateKey(std::string PathToFile)
 
 	s1 = (char *)malloc(100);
 	s2 = (char *)malloc(100);
-	// printf("%s\n", PathToFile.c_str());
  	myReadFile.open(PathToFile.c_str());
  
 	if (myReadFile.is_open()) {
@@ -87,8 +85,6 @@ void Cryptage::setPrivateKey(std::string PathToFile)
 	strcpy(s2, (char*)v->at(1).c_str());
 	_PrivateKey[0] = s1;
 	_PrivateKey[1] = s2;
-	// v->push_back("carbage");// sinon perte du dernier element
-	printf("0: %s 1: %s\n", _PrivateKey[0], _PrivateKey[1]);
 	myReadFile.close();
 }
 
@@ -102,12 +98,9 @@ std::string Cryptage::CryptMessage(std::string message)
 	mpz_init(val);
 	mpz_init(exp);
 	mpz_init(mod);
-	// printf("0: %s 1: %s\n", _PublicKey[0], _PublicKey[1]);
-	// printf("0 : %d 1: %d", atoi(_PublicKey[1]), atoi(_PublicKey[0]));
 	for (std::string::size_type i = 0; i < message.length(); ++i)
 	{
 		sprintf(buf, "%d", (int)message[i]);
-		// printf("val: %s\n", buf);
 		mpz_set_str (val, buf, 10);
 		mpz_set_str (exp, _PublicKey[1], 10);
 		mpz_set_str (mod, _PublicKey[0], 10);
@@ -116,7 +109,6 @@ std::string Cryptage::CryptMessage(std::string message)
 		if (i < message.length() - 1)
     		result += " "; 
 	}
-	// std::cout << "crypt" << result << std::endl;
 	return (result);
 }
 
@@ -128,7 +120,6 @@ void Cryptage::UnCryptMessage(std::string message, char *&dest)
 	char *s = NULL;
 	char *token = NULL;
 
-	// std::cout << "message: " << message << std::endl;
 	mpz_init(res);
 	mpz_init(val);
 	mpz_init(exp);
@@ -149,7 +140,6 @@ void Cryptage::UnCryptMessage(std::string message, char *&dest)
 
 	std::list<char*>::iterator p = lst.begin();
   	while (p != lst.end()) {
-  		// std::cout << *p << std::endl;
   		mpz_set_str (val, *p, 10);
 		mpz_set_str (exp, _PrivateKey[0], 10);
 		mpz_set_str (mod, _PrivateKey[1], 10);
@@ -157,9 +147,7 @@ void Cryptage::UnCryptMessage(std::string message, char *&dest)
 		result += (char)mpz_get_si(res);
    		p++;
   }
-  // std::cout << result << std::endl;
   dest = (char*)result.c_str();
-  // dest = (char*)message.c_str();
 }
 
 void Cryptage::split(const std::string &s, const char* delim, std::vector<std::string> & v){

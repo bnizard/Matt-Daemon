@@ -43,13 +43,37 @@ Signal_handler &	Signal_handler::operator=(Signal_handler const & rhs)
 
 void		Signal_handler::RegisterSignals()
 {
-	// Some might not be catchables ...
-	signal(SIGINT, Signal_handler::signalHandler);
-	signal(SIGABRT, Signal_handler::signalHandler);
-	signal(SIGFPE, Signal_handler::signalHandler);
-	signal(SIGILL, Signal_handler::signalHandler);
-	signal(SIGSEGV, Signal_handler::signalHandler);
-	signal(SIGTERM, Signal_handler::signalHandler);
+	signal(SIGHUP, Signal_handler::signalHandler); // 12
+	signal(SIGINT, Signal_handler::signalHandler); // 2
+	signal(SIGQUIT, Signal_handler::signalHandler); // 3
+	signal(SIGILL, Signal_handler::signalHandler); // 4
+	signal(SIGTRAP, Signal_handler::signalHandler); // 5
+	signal(SIGABRT, Signal_handler::signalHandler); // 6
+	signal(7, Signal_handler::signalHandler); // 7 undefined
+	signal(SIGFPE, Signal_handler::signalHandler); // 8
+	//signal(SIGKILL, Signal_handler::signalHandler); // 9 cant be caught
+	signal(SIGBUS, Signal_handler::signalHandler); // 10
+	signal(SIGSEGV, Signal_handler::signalHandler); // 11
+	signal(SIGSYS, Signal_handler::signalHandler); // 12
+	signal(SIGPIPE, Signal_handler::signalHandler); // 13
+	signal(SIGALRM, Signal_handler::signalHandler); // 14
+	signal(SIGTERM, Signal_handler::signalHandler); // 15
+	signal(SIGURG, Signal_handler::signalHandler); // 16
+	//signal(SIGSTOP, Signal_handler::signalHandler); // 17 cant be caught
+	signal(SIGTSTP, Signal_handler::signalHandler); // 18
+	signal(SIGCONT, Signal_handler::signalHandler); // 19
+	signal(SIGCHLD, Signal_handler::signalHandler); // 20
+	signal(SIGTTIN, Signal_handler::signalHandler); // 21
+	signal(SIGTTOU, Signal_handler::signalHandler); // 22
+	signal(SIGIO, Signal_handler::signalHandler); // 23
+	signal(SIGXCPU, Signal_handler::signalHandler); // 24
+	signal(SIGXFSZ, Signal_handler::signalHandler); // 25
+	signal(SIGVTALRM, Signal_handler::signalHandler); // 26
+	signal(SIGPROF, Signal_handler::signalHandler); // 27
+	signal(SIGWINCH, Signal_handler::signalHandler); // 28
+	signal(29, Signal_handler::signalHandler); // 29 undefined
+	signal(SIGUSR1, Signal_handler::signalHandler); // 30
+	signal(SIGUSR2, Signal_handler::signalHandler); // 31
 }
 
 void		Signal_handler::signalHandler( int signum )
@@ -57,7 +81,7 @@ void		Signal_handler::signalHandler( int signum )
 	std::stringstream LogString;
 	if (instance->log != NULL)
 	{
-		LogString << "Received signal (" << signum << "). Quitting...";
+		LogString << "[INFO] Received signal (" << signum << "). Quitting...";
 		instance->log->AddLog(LogString.str());
 		exit(signum);
 	}

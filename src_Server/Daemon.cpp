@@ -14,12 +14,14 @@
 
 Daemon::Daemon( void ) : MaxClients(3)
 {
+
+	Log.Init();
 	if (chdir("/var/lock/") == -1)
 	{
-		//Log.AddLog((std::string)"[INFO] Server creating folder /var/lock");
+		Log.AddLog((std::string)"[INFO] Server creating folder /var/lock");
 		system("mkdir \"/var/lock\"");
 	}
-	//Log.AddLog((std::string)"[INFO] Server creating file /var/lock/matt_daemon.lock");
+	Log.AddLog((std::string)"[INFO] Server creating file /var/lock/matt_daemon.lock");
 	open("/var/lock/matt_daemon.lock", O_CREAT);
 }
 
@@ -111,14 +113,14 @@ int 	Daemon::CreateDaemonProcess()
 	if (getuid())
 	{
 		printf("%s", "You must be root!\n");
-		//Log.AddLog("[ERROR] 'Not as root' connection attempted.");
+		Log.AddLog("[ERROR] 'Not as root' connection attempted.");
 		EndOfDaemon();
 	}
 
 	if (!isAlreadyRunning())
 	{
 		printf("Process already running\n");
-		//Log.AddLog("[ERROR] Duplicate server start attempted. (process already running)");
+		Log.AddLog("[ERROR] Duplicate server start attempted. (process already running)");
 		exit(-1);
 	}
 	// exit(0);
@@ -148,7 +150,6 @@ int 	Daemon::DaemonServer()
 	int					ret; // select ret
 
 	ret = 0;
-	Log.Init();
 	SigHandler.SetLog(&Log);
 	SigHandler.SetDaemon(this);
 	SigHandler.RegisterSignals();
@@ -276,6 +277,12 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs)
 					EndOfDaemon();
 				}
 				Log.AddLog((std::string)"[INFO] Message from Client " + to_string(i) + " - \"" + (std::string)buf_client + "\"");
+			} 
+			else
+			{
+				// Client disconnected, clean socket;
+				Log.AddLog((std::string)"[INFO] Client " + to_string(i) + " disconnected from server. Slot available on server.");
+				client_socket[i] = 0;
 			}
 		}
 	}

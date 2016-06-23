@@ -25,6 +25,7 @@ class Daemon
 		// public attributes
 		Logger				Log;
 		Signal_handler		SigHandler;
+		int					MaxClients; // set at 3 in default construct 
 
 		// public defaults Copplien
 							Daemon( void );
@@ -36,14 +37,20 @@ class Daemon
 		int					CreateServer(int port);
 		int					Daemon_Main();
 
-		int 				DaemonServer();
-		int 				CreateDaemonProcess();
-		bool    			isAlreadyRunning();
+		int					DaemonServer();
+		int					ResetFdSet(int client_socket[3], int sock, fd_set *readfs);
+		void				SearchForNewClients(int client_socket[3], int ret, int sock, fd_set *readfs);
+		void				ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs);
+
+		int					CreateDaemonProcess();
+		bool				isAlreadyRunning();
 		void				EndOfDaemon();
 
 		// Setters
 		void				SetEncryption(bool b);
 
+		//utils
+		std::string			to_string(int n);
 	private:
 		bool				_hasEncryption;
 };

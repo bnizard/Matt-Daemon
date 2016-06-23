@@ -41,7 +41,7 @@ void Logger::Init( void )
 	open("/var/log/matt_daemon/matt_daemon.log", O_CREAT | O_APPEND);
 
 	Tintin.CreateNewLogFile("/var/log/matt_daemon/matt_daemon.log");
-	Tintin.AddLog("Logger: Log file created.");
+	Tintin.AddLog("[INFO] Logger: Log file created at /var/log/matt_daemon/matt_daemon.log");
 }
 
 void Logger::AddLog(std::string Str)
@@ -51,10 +51,10 @@ void Logger::AddLog(std::string Str)
 
 void Logger::Created()
 {
-	Tintin.AddLog("Matt_Daemon Created.");
+	Tintin.AddLog("[INFO] Matt_Daemon Created.");
 }
 
 void Logger::Closed()
 {
-	Tintin.AddLog("Matt_Daemon Closed.");
+	Tintin.AddLog("[INFO] Matt_Daemon Closed.");
 }

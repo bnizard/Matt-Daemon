@@ -18,7 +18,7 @@ SRC = ./src_Server/Signal_handler.cpp \
 ./src_Server/Daemon.cpp \
 ./src_Server/Logger.cpp \
 ./src_Server/Tintin_reporter.cpp \
-./src_Common/Cryptage.cpp \
+./src_Common/Cryptage.cpp
 
 SRC2 = ./src_Client/main_client.cpp \
 ./src_Client/Client.cpp \

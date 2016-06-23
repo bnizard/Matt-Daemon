@@ -269,7 +269,6 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs,
 
 
 	s = (char*)malloc(1000);
-	(void)c;
 	for (i = 0; i < MaxClients; i++) 
 	{
 		sd = client_socket[i];
@@ -279,8 +278,11 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs,
 			if (ret != 0)
 			{
 				buf_client[ret] = '\0';
-				c.UnCryptMessage(buf_client, s);
-				strcpy(buf_client, s);
+				if (_hasEncryption)
+				{
+					c.UnCryptMessage(buf_client, s);
+					strcpy(buf_client, s);
+				}
 				write(1, buf_client, strlen(buf_client));
 				if (strcmp(buf_client, "quit\n") == 0)
 				{

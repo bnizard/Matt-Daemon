@@ -19,9 +19,10 @@ int main (int argc, char **argv)
 	d.SetEncryption(true);
 	if (argc > 1)
 	{
-		if ((strcmp(argv[1], "-u") == 0)  && argc == 2)
+		if ((strcmp(argv[1], "-c") == 0)  && argc == 2)
 		{
 			d.SetEncryption(false);
+			printf("Launch without Decrypt message\n");
 		}
 		else
 		{
@@ -30,19 +31,4 @@ int main (int argc, char **argv)
 		}
 	}
 	return (d.Daemon_Main());
-
-
-	// (void)argv;
-	// (void)argc;
-	// char *test;
-	// Cryptage c;
-	// char 	*s;
-
-	// s = (char*)malloc(1000);
-	// test = (char*)malloc(10);
-	// strcpy(test, "Bonjour !");
-	// c.setPublicKey("src_Client/PublicKey.key");
-	// c.setPrivateKey("src_Server/PrivateKey.key");
-	// c.UnCryptMessage(c.CryptMessage(test), s);
-	// printf("%s\n", s);
 }

@@ -103,18 +103,13 @@ void	Client::client_prompt(int sock)
 	Cryptage c;
 	char 	*result;
 
-
-(void)sock;
 	c.setPublicKey("src_Client/PublicKey.key");
 	while (1)
 	{
 		prompt();
 		ret = read(0, buf, 999);
 		buf[ret] = '\0';
-		// printf("%s\n", c.CryptMessage(buf).c_str());
-		// write(sock, buf, strlen(buf));
 		result = (char*)c.CryptMessage(buf).c_str();
-		
 		write(sock, result, strlen(result));
 	}
 }

@@ -83,13 +83,14 @@ void		Signal_handler::signalHandler( int signum )
 	{
 		LogString << "[INFO] Received signal (" << signum << "). Quitting...";
 		instance->log->AddLog(LogString.str());
-		exit(signum);
+			exit(signum);
+		return ;
 	}
 	else
 	{
 		std::cout << "No Logfile object set for Signal_Handler. Use SetLog().\n";
 	}
-	exit (signum);
+		exit (signum);
 }
 
 // Setters

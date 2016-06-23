@@ -29,14 +29,14 @@ class Cryptage
 		Cryptage 			&operator=( Cryptage const &rhs );
 
 		// public methods
+		void		setPublicKey(std::string PathToFile);
+		void		setPrivateKey(std::string PathToFile);
 		std::string CryptMessage(std::string message);
-		std::string UnCryptMessage(std::string message);
+		void 		UnCryptMessage(std::string message, char *&dest);
 	private:
-			void	setPublicKey(char *PathToFile);
-			void	setPrivateKey(char *PathToFile);
-
-			char  	*_PublicKey[2];
-			char 	*_PrivateKey[2];
+			void 	split(const std::string &s, const char* delim, std::vector<std::string> & v);
+			char 	*_PublicKey[2];
+			char	*_PrivateKey[2];
 };
 
 #endif

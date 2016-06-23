@@ -9,6 +9,7 @@
 # include <sstream>
 # include <fcntl.h>
 # include <list>
+# include <vector>
 # include <string>
 
 // Journalisation

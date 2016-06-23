@@ -100,12 +100,21 @@ void	Client::client_prompt(int sock)
 {
 	int		ret;
 	char	buf[1000];
+	Cryptage c;
+	char 	*result;
 
+
+(void)sock;
+	c.setPublicKey("src_Client/PublicKey.key");
 	while (1)
 	{
 		prompt();
 		ret = read(0, buf, 999);
 		buf[ret] = '\0';
-		write(sock, buf, strlen(buf));
+		// printf("%s\n", c.CryptMessage(buf).c_str());
+		// write(sock, buf, strlen(buf));
+		result = (char*)c.CryptMessage(buf).c_str();
+		
+		write(sock, result, strlen(result));
 	}
 }

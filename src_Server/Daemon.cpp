@@ -14,7 +14,11 @@
 
 Daemon::Daemon( void ) : MaxClients(3)
 {
+	char *s;
 
+	s = (char *)malloc(50);
+	getcwd(s, 100);
+	_pwd = s;
 	Log.Init();
 	if (chdir("/var/lock/") == -1)
 	{
@@ -148,8 +152,11 @@ int 	Daemon::DaemonServer()
 	int					i;
 	fd_set				readfs; 
 	int					ret; // select ret
+	Cryptage 			c;
 
 	ret = 0;
+	strcat(_pwd, "/src_Server/PrivateKey.key");
+	c.setPrivateKey(_pwd);
 	SigHandler.SetLog(&Log);
 	SigHandler.SetDaemon(this);
 	SigHandler.RegisterSignals();
@@ -181,7 +188,7 @@ int 	Daemon::DaemonServer()
 		SearchForNewClients(client_socket, ret, sock, &readfs);
 
 		// go read on each client sockets.
-		ReadOnClientSockets(sock, client_socket, &readfs);
+		ReadOnClientSockets(sock, client_socket, &readfs, c);
 	}
 	close(sock);
 	perror("Exit");
@@ -252,13 +259,17 @@ void Daemon::SearchForNewClients(int client_socket[3], int ret, int sock, fd_set
 	}
 }
 
-void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs)
+void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs, Cryptage &c)
 {
 	int				i;
 	char			buf_client[1000];
 	int				sd;
 	int				ret;
+	char			*s = NULL;
 
+
+	s = (char*)malloc(1000);
+	(void)c;
 	for (i = 0; i < MaxClients; i++) 
 	{
 		sd = client_socket[i];
@@ -268,6 +279,8 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs)
 			if (ret != 0)
 			{
 				buf_client[ret] = '\0';
+				c.UnCryptMessage(buf_client, s);
+				strcpy(buf_client, s);
 				write(1, buf_client, strlen(buf_client));
 				if (strcmp(buf_client, "quit\n") == 0)
 				{

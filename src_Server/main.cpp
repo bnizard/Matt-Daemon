@@ -15,10 +15,7 @@
 int main (int argc, char **argv)
 {
 	Daemon d;
-
-	// Cryptage c;
-	// std::cout << c.CryptMessage("Bonjour !") << std::endl;
-	// std::cout << c.UnCryptMessage(c.CryptMessage("Bonjour !")) << std::endl;
+	
 	d.SetEncryption(true);
 	if (argc > 1)
 	{
@@ -33,4 +30,19 @@ int main (int argc, char **argv)
 		}
 	}
 	return (d.Daemon_Main());
+
+
+	// (void)argv;
+	// (void)argc;
+	// char *test;
+	// Cryptage c;
+	// char 	*s;
+
+	// s = (char*)malloc(1000);
+	// test = (char*)malloc(10);
+	// strcpy(test, "Bonjour !");
+	// c.setPublicKey("src_Client/PublicKey.key");
+	// c.setPrivateKey("src_Server/PrivateKey.key");
+	// c.UnCryptMessage(c.CryptMessage(test), s);
+	// printf("%s\n", s);
 }

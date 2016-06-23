@@ -33,37 +33,62 @@ Cryptage 			&Cryptage::operator=( Cryptage const &rhs )
 	return (*this);
 }
 
-void Cryptage::setPublicKey(char *PathToFile)
+void Cryptage::setPublicKey(std::string PathToFile)
 {
 	char output[100];
-
+	std::vector<std::string> v[3];
 	std::ifstream myReadFile;
- 	myReadFile.open(PathToFile);
+	char *s1;
+	char *s2;	
+
+	s1 = (char *)malloc(100);
+	s2 = (char *)malloc(100);
+
+ 	myReadFile.open(PathToFile.c_str());
  
 	if (myReadFile.is_open()) {
  		while (!myReadFile.eof()) {
 			myReadFile >> output;
  		}
 	}
-	_PublicKey[0] = std::strtok(output, ";");
-	_PublicKey[1] = std::strtok(NULL, ";");
+	else
+		printf("Error OpenPublic\n");
+	split(output, ";", *v);
+	strcpy(s1, (char*)v->at(0).c_str());
+	strcpy(s2, (char*)v->at(1).c_str());
+	_PublicKey[0] = s1;
+	_PublicKey[1] = s2;
+	// v->push_back("carbage");// sinon perte du dernier element
 	myReadFile.close();
 }
 
-void Cryptage::setPrivateKey(char *PathToFile)
+void Cryptage::setPrivateKey(std::string PathToFile)
 {
 	char output[100];
-
+	std::vector<std::string> v[3];
 	std::ifstream myReadFile;
- 	myReadFile.open(PathToFile);
+	char *s1;
+	char *s2;	
+
+	s1 = (char *)malloc(100);
+	s2 = (char *)malloc(100);
+	// printf("%s\n", PathToFile.c_str());
+ 	myReadFile.open(PathToFile.c_str());
  
 	if (myReadFile.is_open()) {
  		while (!myReadFile.eof()) {
 			myReadFile >> output;
  		}
 	}
-	_PrivateKey[0] = std::strtok(output, ";");
-	_PrivateKey[1] = std::strtok(NULL, ";");
+	else
+		printf("Error OpenPrivate\n");
+	split(output, ";", *v);
+	strcpy(s1, (char*)v->at(0).c_str());
+	strcpy(s2, (char*)v->at(1).c_str());
+	_PrivateKey[0] = s1;
+	_PrivateKey[1] = s2;
+	// v->push_back("carbage");// sinon perte du dernier element
+	printf("0: %s 1: %s\n", _PrivateKey[0], _PrivateKey[1]);
 	myReadFile.close();
 }
 
@@ -77,21 +102,25 @@ std::string Cryptage::CryptMessage(std::string message)
 	mpz_init(val);
 	mpz_init(exp);
 	mpz_init(mod);
+	// printf("0: %s 1: %s\n", _PublicKey[0], _PublicKey[1]);
+	// printf("0 : %d 1: %d", atoi(_PublicKey[1]), atoi(_PublicKey[0]));
 	for (std::string::size_type i = 0; i < message.length(); ++i)
 	{
 		sprintf(buf, "%d", (int)message[i]);
+		// printf("val: %s\n", buf);
 		mpz_set_str (val, buf, 10);
 		mpz_set_str (exp, _PublicKey[1], 10);
 		mpz_set_str (mod, _PublicKey[0], 10);
 		mpz_powm(res, val, exp, mod);
 		result += mpz_get_str(NULL, 10, res);
 		if (i < message.length() - 1)
-    		result += " "; 	
+    		result += " "; 
 	}
+	// std::cout << "crypt" << result << std::endl;
 	return (result);
 }
 
-std::string Cryptage::UnCryptMessage(std::string message)
+void Cryptage::UnCryptMessage(std::string message, char *&dest)
 {
 	std::string result;
 	mpz_t res, val, exp, mod;
@@ -99,12 +128,14 @@ std::string Cryptage::UnCryptMessage(std::string message)
 	char *s = NULL;
 	char *token = NULL;
 
+	// std::cout << "message: " << message << std::endl;
 	mpz_init(res);
 	mpz_init(val);
 	mpz_init(exp);
 	mpz_init(mod);
-
-	s = (char*)message.c_str();
+	(void)dest;
+	s = (char*)malloc(1000);
+	strcpy(s, (char*)message.c_str());
 	token = std::strtok(s, " ");
 	
 	while (token != NULL)
@@ -115,8 +146,10 @@ std::string Cryptage::UnCryptMessage(std::string message)
 			break;	
 			
 	}
+
 	std::list<char*>::iterator p = lst.begin();
   	while (p != lst.end()) {
+  		// std::cout << *p << std::endl;
   		mpz_set_str (val, *p, 10);
 		mpz_set_str (exp, _PrivateKey[0], 10);
 		mpz_set_str (mod, _PrivateKey[1], 10);
@@ -124,5 +157,18 @@ std::string Cryptage::UnCryptMessage(std::string message)
 		result += (char)mpz_get_si(res);
    		p++;
   }
-	return (result);
+  // std::cout << result << std::endl;
+  dest = (char*)result.c_str();
+  // dest = (char*)message.c_str();
+}
+
+void Cryptage::split(const std::string &s, const char* delim, std::vector<std::string> & v){
+    
+    char * dup = strdup(s.c_str());
+    char * token = strtok(dup, delim);
+    while(token != NULL){
+        v.push_back(std::string(token));
+        token = strtok(NULL, delim);
+    }
+    free(dup);
 }

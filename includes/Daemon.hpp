@@ -40,7 +40,7 @@ class Daemon
 		int					DaemonServer();
 		int					ResetFdSet(int client_socket[3], int sock, fd_set *readfs);
 		void				SearchForNewClients(int client_socket[3], int ret, int sock, fd_set *readfs);
-		void				ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs);
+		void				ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs, Cryptage &c);
 
 		int					CreateDaemonProcess();
 		bool				isAlreadyRunning();
@@ -53,6 +53,7 @@ class Daemon
 		std::string			to_string(int n);
 	private:
 		bool				_hasEncryption;
+		char				*_pwd;
 };
 
 #endif

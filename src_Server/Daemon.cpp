@@ -286,6 +286,12 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs,
 					close(sock);
 					EndOfDaemon();
 				}
+				else if (strcmp(buf_client, "clear\n") == 0)
+				{
+					Log.AddLog((std::string)"[INFO] Message from Client " + to_string(i) + " - \"" + (std::string)buf_client + "\"");
+					Log.ClearLogFile();
+					Log.AddLog((std::string)"[INFO] Log File Cleared");
+				}
 				Log.AddLog((std::string)"[INFO] Message from Client " + to_string(i) + " - \"" + (std::string)buf_client + "\"");
 			} 
 			else

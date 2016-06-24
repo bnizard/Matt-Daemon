@@ -27,15 +27,16 @@ SRC2 = ./src_Client/main_client.cpp \
 OBJ = $(SRC:.cpp=.o)
 OBJ2 = $(SRC2:.cpp=.o)
 
-CC = clang++ -Wall -Werror -Wextra -lgmp
+CC = clang++ -Wall -Werror -Wextra
+CC2 = clang++ -Wall -Werror -Wextra -lgmp
 
 all: $(NAME1) $(NAME2)
 
 $(NAME1): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC2) $(OBJ) -o $@
 
 $(NAME2): $(OBJ2)
-	$(CC) $(OBJ2) -o $@
+	$(CC2) $(OBJ2) -o $@
 
 %.o: %.cpp
 	$(CC) -o $@ -c $<

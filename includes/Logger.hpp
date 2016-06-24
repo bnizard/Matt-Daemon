@@ -31,6 +31,7 @@ class Logger
 		void				Init( void );
 		
 		void				AddLog(std::string Str);
+		void				ClearLogFile();
 		void				Created();
 		void				Closed();
 };

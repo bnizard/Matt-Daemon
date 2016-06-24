@@ -38,6 +38,7 @@ class Tintin_reporter
 		void				SetLogFile(std::string SelectedFilePath);
 		void				UnsetLogFile();
 		void				CreateNewLogFile(std::string str);
+		void				DeleteLogFile(std::string FilePath);
 
 		void				AddLogToFile(std::string SelectedFilePath,
 														std::string Text);

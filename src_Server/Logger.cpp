@@ -44,6 +44,12 @@ void Logger::Init( void )
 	Tintin.AddLog("[INFO] Logger: Log file created at /var/log/matt_daemon/matt_daemon.log");
 }
 
+void Logger::ClearLogFile()
+{
+	Tintin.DeleteLogFile("/var/log/matt_daemon/matt_daemon.log");
+	Tintin.CreateNewLogFile("/var/log/matt_daemon/matt_daemon.log");
+}
+
 void Logger::AddLog(std::string Str)
 {
 	Tintin.AddLog(Str);

@@ -61,6 +61,18 @@ void Tintin_reporter::UnsetLogFile()
 	this->islogFileSet = false;
 }
 
+void Tintin_reporter::DeleteLogFile(std::string FilePath)
+{
+	char *Str = new char[FilePath.length() + 1];
+	std::strcpy(Str, FilePath.c_str());
+
+	if (this->islogFileSet)
+	{
+		this->islogFileSet = false;
+		remove(Str);
+	}
+}
+
 /*
 ** Set log file from new file;
 */

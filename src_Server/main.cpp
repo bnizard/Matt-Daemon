@@ -21,8 +21,8 @@ int main (int argc, char **argv)
 	{
 		if ((strcmp(argv[1], "-c") == 0)  && argc == 2)
 		{
+			d.Log.AddLog("[INFO] Launch without Decrypt message mode");
 			d.SetEncryption(false);
-			printf("Launch without Decrypt message\n");
 		}
 		else
 		{

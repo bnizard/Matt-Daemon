@@ -87,15 +87,13 @@ int		Daemon::CreateServer(int port)
 	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
 	{
 		Log.AddLog("[ERROR] Server bind() error.");
+		printf("Bind error\n");
 		EndOfDaemon();
 	}
 	// Printing server infos
-	printf("Port: %d\n", port);
 	Log.AddLog((std::string)"[INFO] Server port: " + to_string(port));
-	printf("Server socket: %d\n", sock);
 	Log.AddLog((std::string)"[INFO] Server socket: " + to_string(sock));
 	listen(sock, 3);
-	printf("- Awaiting connections... -\n");
 	Log.AddLog((std::string)"[INFO] Server - Awaiting connections... -");
 	return (sock);
 }
@@ -132,13 +130,12 @@ int 	Daemon::CreateDaemonProcess()
 	pid = fork();
 
 	if (pid < 0) {
-		std::cout << "exit failure\n";
+		Log.AddLog("[ERROR] fork error");
 		exit(EXIT_FAILURE);
 	}
 
 	// We got a good pid, Close the Parent Process
 	if (pid > 0) {
-		std::cout << "exit success\n";
 		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
@@ -156,7 +153,9 @@ int 	Daemon::DaemonServer()
 
 	ret = 0;
 	strcat(_pwd, "/src_Server/PrivateKey.key");
-	c.setPrivateKey(_pwd);
+	c.ParentDaemon = this;
+	if (!c.setPrivateKey(_pwd))
+		EndOfDaemon();
 	SigHandler.SetLog(&Log);
 	SigHandler.SetDaemon(this);
 	SigHandler.RegisterSignals();
@@ -191,7 +190,6 @@ int 	Daemon::DaemonServer()
 		ReadOnClientSockets(sock, client_socket, &readfs, c);
 	}
 	close(sock);
-	perror("Exit");
 	return (EXIT_SUCCESS);
 }
 
@@ -233,7 +231,6 @@ void Daemon::SearchForNewClients(int client_socket[3], int ret, int sock, fd_set
 	{
 		if ((new_socket = accept(sock, (struct sockaddr *)&csin, (socklen_t*)&cslen)) < 0)
 		{
-			perror("accept");
 			Log.AddLog("[ERROR] Accept() Error. Quitting Server.");
 			exit(EXIT_FAILURE);
 		}
@@ -245,7 +242,6 @@ void Daemon::SearchForNewClients(int client_socket[3], int ret, int sock, fd_set
 			if (client_socket[i] == 0 )
 			{
 				client_socket[i] = new_socket;
-				printf("Adding to list of sockets as %d\n" , i);
 				Log.AddLog((std::string)"[INFO] New client connected to server! Added to list of sockets as " + to_string(i));
 				break;
 			}
@@ -283,7 +279,6 @@ void Daemon::ReadOnClientSockets(int sock, int client_socket[3], fd_set *readfs,
 					c.UnCryptMessage(buf_client, s);
 					strcpy(buf_client, s);
 				}
-				write(1, buf_client, strlen(buf_client));
 				if (strcmp(buf_client, "quit\n") == 0)
 				{
 					Log.AddLog((std::string)"[INFO] Message from Client " + to_string(i) + " - \"" + (std::string)buf_client + "\"");

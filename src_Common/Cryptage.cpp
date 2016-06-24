@@ -12,7 +12,7 @@
 
 #include "../includes/Matt_Daemon.hpp"
 
-Cryptage::Cryptage( void )
+Cryptage::Cryptage( void ) : ParentDaemon(NULL)
 {
 
 }
@@ -52,7 +52,10 @@ void Cryptage::setPublicKey(std::string PathToFile)
  		}
 	}
 	else
+	{
 		printf("Error OpenPublic\n");
+		exit(-1);
+	}
 	split(output, ";", *v);
 	strcpy(s1, (char*)v->at(0).c_str());
 	strcpy(s2, (char*)v->at(1).c_str());
@@ -61,7 +64,7 @@ void Cryptage::setPublicKey(std::string PathToFile)
 	myReadFile.close();
 }
 
-void Cryptage::setPrivateKey(std::string PathToFile)
+bool Cryptage::setPrivateKey(std::string PathToFile)
 {
 	char output[100];
 	std::vector<std::string> v[3];
@@ -79,13 +82,14 @@ void Cryptage::setPrivateKey(std::string PathToFile)
  		}
 	}
 	else
-		printf("Error OpenPrivate\n");
+		return (false);
 	split(output, ";", *v);
 	strcpy(s1, (char*)v->at(0).c_str());
 	strcpy(s2, (char*)v->at(1).c_str());
 	_PrivateKey[0] = s1;
 	_PrivateKey[1] = s2;
 	myReadFile.close();
+	return (true);
 }
 
 std::string Cryptage::CryptMessage(std::string message)

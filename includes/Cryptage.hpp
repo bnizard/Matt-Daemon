@@ -22,6 +22,8 @@
 class Cryptage
 {
 	public:
+		Daemon 				*ParentDaemon;
+
 		// public defaults Copplien
 							Cryptage( void );
 							Cryptage( Cryptage const &src );
@@ -30,7 +32,7 @@ class Cryptage
 
 		// public methods
 		void		setPublicKey(std::string PathToFile);
-		void		setPrivateKey(std::string PathToFile);
+		bool		setPrivateKey(std::string PathToFile);
 		std::string CryptMessage(std::string message);
 		void 		UnCryptMessage(std::string message, char *&dest);
 	private:
